@@ -7,24 +7,24 @@ import java.io.IOException;
 
 import assignment1.ReferenceCounter.counts;
 
-public class ClassCounter {
+public class DirParser {
 
-    private String BASEDIR;
-    private String CLASSTYPE;
-    private int REFCOUNT;
-    private int DECCOUNT;
+    private String dirpath;
+    private String type;
+    private int refcount;
+    private int deccount;
     private File dir;
     private FileReader fr;
     
-    public ClassCounter(String path, String classType){
-        BASEDIR = path;
-        CLASSTYPE = classType;
+    public DirParser(String path, String classType){
+        dirpath = path;
+        type = classType;
         dir = new File(path);
     }
     
     public void parseBaseDirectory() throws IOException {
         if(dir.exists()) {
-            ReferenceCounter rf = new ReferenceCounter(BASEDIR);
+            ReferenceCounter rf = new ReferenceCounter(dirpath);
             File[] files = dir.listFiles();
             for (File file : files) {                                   // Iterates through all the files in the base directory
                 if (file.isFile()) {
@@ -32,19 +32,19 @@ public class ClassCounter {
                     char a[] = new char[5000];                          // Will contain all characters within the file.
                     fr.read(a);                                         // Reads the characters to the Array.
                     rf.setSource(a);
-                    counts c = rf.count(CLASSTYPE);
-                    DECCOUNT += c.Declarations;
-                    REFCOUNT += c.References;
+                    counts c = rf.count(type);
+                    deccount += c.Declarations;
+                    refcount += c.References;
                 }
             }
         }
     }
     
     public static void main(String args[]) {
-        ClassCounter cc = new ClassCounter(args[0],args[1]);
+        DirParser cc = new DirParser(args[0],args[1]);
         try {
             cc.parseBaseDirectory();
-            System.out.println(cc.CLASSTYPE + ". Declarations found: " + cc.DECCOUNT + "; references found: " + cc.REFCOUNT + ".");
+            System.out.println(cc.type + ". Declarations found: " + cc.deccount + "; references found: " + cc.refcount + ".");
            
         } catch (IOException e) {
             // TODO Auto-generated catch block
