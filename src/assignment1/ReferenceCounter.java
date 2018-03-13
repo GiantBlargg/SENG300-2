@@ -20,7 +20,7 @@ public class ReferenceCounter {
 		parser.setResolveBindings(true);
 		parser.setEnvironment(new String[] { System.getProperty("java.home") + "/lib/rt.jar" }, new String[] { path },
 				null, false);
-		parser.setUnitName("test");
+		parser.setUnitName("");
 
 	}
 
@@ -58,7 +58,6 @@ public class ReferenceCounter {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(System.getProperty("java.home"));
 		ReferenceCounter counter = new ReferenceCounter(".");
 		counter.setSource("package foo; public class Bar{public String test;}".toCharArray());
 		counts c = counter.count("java.lang.String");
