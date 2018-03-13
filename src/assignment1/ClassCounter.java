@@ -16,7 +16,7 @@ public class ClassCounter {
     private File dir;
     private FileReader fr;
     
-    public ClassCounter(String classType, String path){
+    public ClassCounter(String path, String classType){
         BASEDIR = path;
         CLASSTYPE = classType;
         dir = new File(path);
