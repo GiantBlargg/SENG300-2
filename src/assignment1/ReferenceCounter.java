@@ -14,7 +14,7 @@ public class ReferenceCounter {
 	private ASTParser parser;
 	private CompilationUnit cu;
 
-	public ReferenceCounter() {
+	public ReferenceCounter(String path) {
 		parser = ASTParser.newParser(AST.JLS9);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
@@ -54,11 +54,5 @@ public class ReferenceCounter {
 	public class counts {
 		public int Declarations;
 		public int References;
-	}
-
-	public static void main(String[] args) {
-		ReferenceCounter counter = new ReferenceCounter();
-		counter.setSource("package foo; public class Bar{private String test;}".toCharArray());
-
 	}
 }
