@@ -18,6 +18,9 @@ public class ReferenceCounter {
 		parser = ASTParser.newParser(AST.JLS9);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
+		parser.setEnvironment(new String[] { "/usr/lib/jvm/java-8-jdk" }, new String[] { "/usr/lib/jvm/java-8-jdk" },
+				null, false);
+		parser.setUnitName("test");
 
 	}
 
@@ -27,13 +30,14 @@ public class ReferenceCounter {
 		cu = (CompilationUnit) parser.createAST(null);
 	}
 
-	public int count() {
-		int count = 0;
+	public counts count(String name) {
+		counts c = new counts();
 		cu.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(TypeDeclaration node) {
-				System.out.println(node.resolveBinding());
-				System.out.println(node.getName().getFullyQualifiedName());
+				if (node.resolveBinding().getBinaryName().equals(name)) {
+					c.Declarations++;
+				}
 				return super.visit(node);
 			}
 
@@ -44,13 +48,17 @@ public class ReferenceCounter {
 				return super.visit(node);
 			}
 		});
-		return count;
+		return c;
+	}
+
+	public class counts {
+		public int Declarations;
+		public int References;
 	}
 
 	public static void main(String[] args) {
 		ReferenceCounter counter = new ReferenceCounter();
-		counter.setSource("public class Bar{private String test;}".toCharArray());
-		counter.count();
+		counter.setSource("package foo; public class Bar{private String test;}".toCharArray());
 
 	}
 }
