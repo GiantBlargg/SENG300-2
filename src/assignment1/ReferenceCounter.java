@@ -18,8 +18,7 @@ public class ReferenceCounter {
 		parser = ASTParser.newParser(AST.JLS9);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
-		parser.setEnvironment(new String[] { "/usr/lib/jvm/java-8-jdk" }, new String[] { "/usr/lib/jvm/java-8-jdk" },
-				null, false);
+		parser.setEnvironment(new String[] { path }, new String[] { path }, null, false);
 		parser.setUnitName("test");
 
 	}
