@@ -18,7 +18,8 @@ public class ReferenceCounter {
 		parser = ASTParser.newParser(AST.JLS9);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
-		parser.setEnvironment(new String[] { path }, new String[] { path }, null, false);
+		parser.setEnvironment(new String[] { System.getProperty("java.home") + "/lib/rt.jar" }, new String[] { path },
+				null, false);
 		parser.setUnitName("test");
 
 	}
@@ -42,8 +43,9 @@ public class ReferenceCounter {
 
 			@Override
 			public boolean visit(SimpleType node) {
-				System.out.println(node.resolveBinding());
-				System.out.println(node.getName().getFullyQualifiedName());
+				if (node.resolveBinding().getBinaryName().equals(name)) {
+					c.References++;
+				}
 				return super.visit(node);
 			}
 		});
@@ -53,5 +55,14 @@ public class ReferenceCounter {
 	public class counts {
 		public int Declarations;
 		public int References;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(System.getProperty("java.home"));
+		ReferenceCounter counter = new ReferenceCounter(".");
+		counter.setSource("package foo; public class Bar{public String test;}".toCharArray());
+		counts c = counter.count("java.lang.String");
+		System.out.println(c.Declarations);
+		System.out.println(c.References);
 	}
 }
