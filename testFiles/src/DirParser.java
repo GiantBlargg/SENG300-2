@@ -23,13 +23,14 @@ public class DirParser {
 
 	public void parseBaseDirectory() throws IOException {
 		if (dir.exists()) {
+			ReferenceCounter rf = new ReferenceCounter(dirpath);
 			File[] files = dir.listFiles();
 			for (File file : files) { // Iterates through all the files in the base directory
 				if (file.isFile()) {
 					fr = new FileReader(file);
 					char a[] = new char[(int) file.length()]; // Will contain all characters within the file.
 					fr.read(a); // Reads the characters to the Array.
-					ReferenceCounter rf = new ReferenceCounter(dirpath, a);
+					rf.setSource(a);
 					counts c = rf.count(type);
 					deccount += c.Declarations;
 					refcount += c.References;

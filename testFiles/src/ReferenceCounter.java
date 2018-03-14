@@ -14,13 +14,17 @@ public class ReferenceCounter {
 	private ASTParser parser;
 	private CompilationUnit cu;
 
-	public ReferenceCounter(String path, char[] src) {
+	public ReferenceCounter(String path) {
 		parser = ASTParser.newParser(AST.JLS9);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
 		parser.setEnvironment(new String[] { System.getProperty("java.home") + "/lib/rt.jar" }, new String[] { path },
 				null, false);
 		parser.setUnitName("");
+
+	}
+
+	public void setSource(char[] src) {
 		parser.setSource(src);
 
 		cu = (CompilationUnit) parser.createAST(null);

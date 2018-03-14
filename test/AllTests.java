@@ -3,7 +3,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestFull.class })
+@SuiteClasses({ TestFull.class, TestSrc.class })
 public class AllTests {
-	public static String BASEDIR = "";
+	// Please point to the testFiles dir on your machine
+	public static String BASEDIR = "/home/daniel/Projects/java/SENG300/testFiles";
 }
