@@ -35,16 +35,20 @@ public class ReferenceCounter {
 		cu.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(TypeDeclaration node) {
-				if (node.resolveBinding().getBinaryName().equals(name)) {
-					c.Declarations++;
+				if (node.resolveBinding() != null) {
+					if (node.resolveBinding().getBinaryName().equals(name)) {
+						c.Declarations++;
+					}
 				}
 				return super.visit(node);
 			}
 
 			@Override
 			public boolean visit(SimpleType node) {
-				if (node.resolveBinding().getBinaryName().equals(name)) {
-					c.References++;
+				if (node.resolveBinding() != null) {
+					if (node.resolveBinding().getBinaryName().equals(name)) {
+						c.References++;
+					}
 				}
 				return super.visit(node);
 			}
