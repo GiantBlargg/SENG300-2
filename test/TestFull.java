@@ -2,11 +2,17 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-public class TestFull {
+import assignment1.ClassCounter;
 
+public class TestFull {
+      
+    private static String BASEDIR = "";
+    private static String CLASSTYPE = "";
+	
 	@Test
 	public void test() {
-		fail("Not yet implemented");
-	}
+	    ClassCounter counter = new ClassCounter(BASEDIR, CLASSTYPE);
+        fail("Not yet implemented");
+    }
 
 }

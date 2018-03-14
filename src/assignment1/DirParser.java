@@ -10,8 +10,8 @@ public class DirParser {
 
 	private String dirpath;
 	private String type;
-	private int refcount;
-	private int deccount;
+	private int refcount = 0;
+	private int deccount = 0;
 	private File dir;
 	private FileReader fr;
 
@@ -38,13 +38,16 @@ public class DirParser {
 			}
 		}
 	}
+	
+	public String getCount() {
+        return this.type + ". Declarations found: " + this.deccount + "; references found: " + this.refcount + ".";
+	}
 
 	public static void main(String args[]) {
 		DirParser cc = new DirParser(args[0], args[1]);
 		try {
 			cc.parseBaseDirectory();
-			System.out.println(
-					cc.type + ". Declarations found: " + cc.deccount + "; references found: " + cc.refcount + ".");
+			System.out.println(cc.getCount());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
