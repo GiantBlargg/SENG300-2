@@ -44,10 +44,10 @@ public class DirParser {
 	}
 
 	public static void main(String args[]) {
-		DirParser cc = new DirParser(args[0], args[1]);
+		DirParser dp = new DirParser(args[0], args[1]);
 		try {
-			cc.parseBaseDirectory();
-			System.out.println(cc.getCount());
+			dp.parseBaseDirectory();
+			System.out.println(dp.getCount());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
