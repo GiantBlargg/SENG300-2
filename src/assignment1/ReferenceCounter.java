@@ -1,5 +1,8 @@
 package assignment1;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jdt.core.dom.*;
 
 /**
@@ -18,23 +21,27 @@ public class ReferenceCounter {
 		parser = ASTParser.newParser(AST.JLS9);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
-		parser.setEnvironment(new String[] { System.getProperty("java.home") + "/lib/rt.jar" }, new String[] { path },
-				null, false);
+		parser.setEnvironment(null, new String[] { path }, null, true);
 		parser.setUnitName("");
 		parser.setSource(src);
 
 		cu = (CompilationUnit) parser.createAST(null);
 	}
 
-	public counts count(String name) {
-		counts c = new counts();
+	public Map<String, counts> count() {
+		Map<String, counts> classes = new HashMap<String, counts>();
 		cu.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(TypeDeclaration node) {
 				if (node.resolveBinding() != null) {
-					if (node.resolveBinding().getBinaryName().equals(name)) {
-						c.Declarations++;
+					String name = node.resolveBinding().getBinaryName();
+					counts c = classes.get(name);
+					if (c == null) {
+						c = new counts();
+						classes.put(name, c);
 					}
+					c.Declarations++;
+
 				}
 				return super.visit(node);
 			}
@@ -42,14 +49,18 @@ public class ReferenceCounter {
 			@Override
 			public boolean visit(SimpleType node) {
 				if (node.resolveBinding() != null) {
-					if (node.resolveBinding().getBinaryName().equals(name)) {
-						c.References++;
+					String name = node.resolveBinding().getBinaryName();
+					counts c = classes.get(name);
+					if (c == null) {
+						c = new counts();
+						classes.put(name, c);
 					}
+					c.References++;
 				}
 				return super.visit(node);
 			}
 		});
-		return c;
+		return classes;
 	}
 
 	public class counts {
