@@ -11,15 +11,11 @@ import assignment1.ReferenceCounter.counts;
 public class DirParser {
 
 	private String dirpath;
-	private String type;
-	private int refcount = 0;
-	private int deccount = 0;
 	private File dir;
-	Map<String, counts> c = new HashMap<String, counts>();
+	Map<String, counts> classes = new HashMap<String, counts>();
 
-	public DirParser(String path, String classType) {
+	public DirParser(String path) {
 		dirpath = path;
-		type = classType;
 		dir = new File(path);
 	}
 
@@ -33,7 +29,7 @@ public class DirParser {
 		fr.read(a); // Reads the characters to the Array.
 		fr.close();
 		ReferenceCounter rf = new ReferenceCounter(dirpath, a);
-		rf.count(c);
+		rf.count(classes);
 	}
 
 	public void parseJar(File jar) {
@@ -55,20 +51,28 @@ public class DirParser {
 						parseJar(file);
 						break;
 					}
+				} else if (file.isDirectory()) {
+					parseDirectory(file);
 				}
 			}
 		}
 	}
 
-	public String getCount() {
-		return this.type + ". Declarations found: " + this.deccount + "; references found: " + this.refcount + ".";
+	@Override
+	public String toString() {
+		String out = "";
+		for (String key : classes.keySet()) {
+			counts c = classes.get(key);
+			out += key + ". Declarations found: " + c.Declarations + "; references found: " + c.References + ".\n";
+		}
+		return out;
 	}
 
 	public static void main(String args[]) {
-		DirParser dp = new DirParser(args[0], args[1]);
+		DirParser dp = new DirParser(args[0]);
 		try {
 			dp.parseBaseDirectory();
-			System.out.println(dp.getCount());
+			System.out.println(dp);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
