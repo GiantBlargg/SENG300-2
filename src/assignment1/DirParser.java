@@ -3,8 +3,11 @@ package assignment1;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import assignment1.ReferenceCounter.counts;
 
@@ -37,7 +40,26 @@ public class DirParser {
 		rf.count(classes);
 	}
 
-	public void parseJar(File jar) {
+	/**
+	 * Takes in a File object and converts it into a char[] that gets passed to the
+	 * ReferenceCounter.count function for processing
+	 * 
+	 * @param jar
+	 *            The FILE object to process
+	 * @throws IOException
+	 */
+	public void parseJar(File jar) throws IOException {
+		JarFile jf = new JarFile(jar); // create a JarFile object
+		Enumeration<JarEntry> enumJF = jf.entries(); // gets the zip file entries
+		while (enumJF.hasMoreElements()) {
+			// get next file
+			JarEntry ent = enumJF.nextElement();
+			String name = ent.getName();
+			// check if name has the .java suffix
+			if (name.contains(".java")) {
+				System.out.println(name);
+			}
+		}
 
 	}
 
