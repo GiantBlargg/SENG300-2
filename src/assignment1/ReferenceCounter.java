@@ -1,6 +1,5 @@
 package assignment1;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.*;
@@ -28,8 +27,7 @@ public class ReferenceCounter {
 		cu = (CompilationUnit) parser.createAST(null);
 	}
 
-	public Map<String, counts> count() {
-		Map<String, counts> classes = new HashMap<String, counts>();
+	public Map<String, counts> count(Map<String, counts> classes) {
 		cu.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(TypeDeclaration node) {
