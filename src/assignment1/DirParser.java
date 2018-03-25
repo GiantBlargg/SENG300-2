@@ -1,29 +1,32 @@
-package assignment1;
+package proj_2;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.util.HashMap;
+import java.util.jar.*;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-import assignment1.ReferenceCounter.counts;
+import proj_2.ReferenceCounter.counts;
+import proj_2.ReferenceCounter.*;
 
 public class DirParser {
 
 	private String dirpath;
+	private String type;
+	private int refcount = 0;
+	private int deccount = 0;
 	private File dir;
+	Map<String, counts> c = new HashMap<String, counts>();
 
-	private Map<String, counts> classes = new HashMap<String, counts>();
-
-	public Map<String, counts> getCounts() {
-		return classes;
-	}
-
-	public DirParser(String path) {
+	public DirParser(String path, String classType) {
 		dirpath = path;
+		type = classType;
 		dir = new File(path);
 	}
 
@@ -37,30 +40,42 @@ public class DirParser {
 		fr.read(a); // Reads the characters to the Array.
 		fr.close();
 		ReferenceCounter rf = new ReferenceCounter(dirpath, a);
-		rf.count(classes);
+		rf.count(c);
 	}
 
 	/**
-	 * Takes in a File object and converts it into a char[] that gets passed to the
-	 * ReferenceCounter.count function for processing
+	 * Takes in a File object and converts it into a char[] that gets passed
+	 * to the ReferenceCounter.count function for processing
 	 * 
-	 * @param jar
-	 *            The FILE object to process
+	 * @param jar The FILE object to process
 	 * @throws IOException
 	 */
 	public void parseJar(File jar) throws IOException {
-		JarFile jf = new JarFile(jar); // create a JarFile object
-		Enumeration<JarEntry> enumJF = jf.entries(); // gets the zip file entries
+		JarFile jf = new JarFile(jar);		// create a JarFile object
+		Enumeration<JarEntry> enumJF = jf.entries(); 	// gets the zip file entries 
 		while (enumJF.hasMoreElements()) {
 			// get next file
 			JarEntry ent = enumJF.nextElement();
 			String name = ent.getName();
 			// check if name has the .java suffix
 			if (name.contains(".java")) {
-				System.out.println(name);
+				InputStreamReader isr = new InputStreamReader(jf.getInputStream(ent));
+				BufferedReader reader = new BufferedReader(isr);
+				String line;
+				String f = "";
+				while ((line = reader.readLine()) != null) {
+					f = f + line;
+				}
+				// convert string to charArray
+				char[] fileCArr = f.toCharArray();
+				System.out.println(Arrays.toString(fileCArr));
+				ReferenceCounter rf = new ReferenceCounter(dirpath, fileCArr);
+				reader.close();		// close bufferedReader
+				isr.close();		// close InputStreamReader
 			}
 		}
-
+		
+		
 	}
 
 	public void parseDirectory(File dir) throws IOException {
@@ -78,28 +93,20 @@ public class DirParser {
 						parseJar(file);
 						break;
 					}
-				} else if (file.isDirectory()) {
-					parseDirectory(file);
 				}
 			}
 		}
 	}
 
-	@Override
-	public String toString() {
-		String out = "";
-		for (String key : classes.keySet()) {
-			counts c = classes.get(key);
-			out += key + ". Declarations found: " + c.Declarations + "; references found: " + c.References + ".\n";
-		}
-		return out;
+	public String getCount() {
+		return this.type + ". Declarations found: " + this.deccount + "; references found: " + this.refcount + ".";
 	}
 
 	public static void main(String args[]) {
-		DirParser dp = new DirParser(args[0]);
+		DirParser dp = new DirParser(args[0], args[1]);
 		try {
 			dp.parseBaseDirectory();
-			System.out.println(dp);
+			System.out.println(dp.getCount());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
