@@ -12,7 +12,12 @@ public class DirParser {
 
 	private String dirpath;
 	private File dir;
-	Map<String, counts> classes = new HashMap<String, counts>();
+
+	private Map<String, counts> classes = new HashMap<String, counts>();
+
+	public Map<String, counts> getCounts() {
+		return classes;
+	}
 
 	public DirParser(String path) {
 		dirpath = path;
