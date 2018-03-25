@@ -1,9 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.IOException;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,44 +15,36 @@ import assignment1.DirParser;
  */
 public class TestSrc {
 
-	// I'll be checking against sysout
-	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	DirParser dp;
 
 	@Before
-	public void setUpStreams() {
-		System.setOut(new PrintStream(outContent));
-	}
-
-	@After
-	public void restoreStreams() {
-		System.setOut(System.out);
+	public void setupClass() throws IOException {
+		dp = new DirParser(AllTests.BASEDIR + "/src");
+		dp.parseBaseDirectory();
 	}
 
 	@Test
 	public void testString() {
-		DirParser.main(new String[] { AllTests.BASEDIR + "/src", "java.lang.String" });
-		assertEquals("java.lang.String. Declarations found: 0; references found: 10.\n", outContent.toString());
+		assertEquals(0, dp.getCounts().get("java.lang.String").Declarations);
+		assertEquals(10, dp.getCounts().get("java.lang.String").References);
 	}
 
 	@Test
 	public void testDirParser() {
-		DirParser.main(new String[] { AllTests.BASEDIR + "/src", "assignment1.DirParser" });
-		assertEquals("assignment1.DirParser. Declarations found: 1; references found: 2.\n", outContent.toString());
+		assertEquals(1, dp.getCounts().get("assignment1.DirParser").Declarations);
+		assertEquals(2, dp.getCounts().get("assignment1.DirParser").References);
 	}
 
 	@Test
 	public void testReferenceCounter() {
-		DirParser.main(new String[] { AllTests.BASEDIR + "/src", "assignment1.ReferenceCounter" });
-		assertEquals("assignment1.ReferenceCounter. Declarations found: 1; references found: 0.\n",
-				outContent.toString());// cross file references are impossible to determine without a complete
-										// classpath so references = 0
+		assertEquals(1, dp.getCounts().get("assignment1.ReferenceCounter").Declarations);
+		assertEquals(2, dp.getCounts().get("assignment1.ReferenceCounter").References);
 	}
 
 	@Test
 	public void testCounts() {
-		DirParser.main(new String[] { AllTests.BASEDIR + "/src", "assignment1.ReferenceCounter$counts" });
-		assertEquals("assignment1.ReferenceCounter$counts. Declarations found: 1; references found: 3.\n",
-				outContent.toString());
+		assertEquals(1, dp.getCounts().get("assignment1.ReferenceCounter$counts").Declarations);
+		assertEquals(4, dp.getCounts().get("assignment1.ReferenceCounter$counts").References);
 	}
 
 }
