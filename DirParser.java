@@ -1,10 +1,13 @@
-package assignment1;
+package proj_2;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
-import assignment1.ReferenceCounter.counts;
+import proj_2.ReferenceCounter.counts;
+import proj_2.ReferenceCounter.*;
 
 public class DirParser {
 
@@ -14,6 +17,7 @@ public class DirParser {
 	private int deccount = 0;
 	private File dir;
 	private FileReader fr;
+	private Map<String, counts> c = new HashMap<String, counts>();
 
 	public DirParser(String path, String classType) {
 		dirpath = path;
@@ -30,9 +34,10 @@ public class DirParser {
 					char a[] = new char[(int) file.length()]; // Will contain all characters within the file.
 					fr.read(a); // Reads the characters to the Array.
 					ReferenceCounter rf = new ReferenceCounter(dirpath, a);
-					counts c = rf.count(type);
-					deccount += c.Declarations;
-					refcount += c.References;
+					//c = rf.count();
+					c = rf.count();
+					System.out.println(c.values().show());
+//					System.out.println(c.References);
 				}
 			}
 		}
