@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,22 +18,18 @@ public class TestEmpty {
 	 * 
 	 *****************************************************************************/
 	@Test
-	public void testEmpty() {
-		DirParser counter = new DirParser(AllTests.BASEDIR, CLASSTYPE);
-		try {
-			counter.parseBaseDirectory();
-		} catch (IOException e) {
-			fail("IOException");
-		}
-		assertEquals("NoClass. Declarations found: 0; references found: 0.", counter.getCount());
+	public void testEmpty() throws IOException {
+		DirParser counter = new DirParser(AllTests.BASEDIR);
+		counter.parseBaseDirectory();
+		assertEquals(null, counter.getCounts().get("NoClass"));
 	}
 
 	@Test
 	public void testNonExistant() {
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
-		DirParser.main(new String[] { AllTests.BASEDIR + "/nonexistant", "" });
-		assertEquals(". Declarations found: 0; references found: 0.\n", outContent.toString());
+		DirParser.main(new String[] { AllTests.BASEDIR + "/nonexistant" });
+		assertEquals("\n", outContent.toString());
 		System.setOut(System.out);
 	}
 

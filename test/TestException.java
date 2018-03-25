@@ -3,6 +3,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -19,8 +21,8 @@ public class TestException {
 		fr.read(a); // Reads the characters to the Array.
 		ReferenceCounter rf = new ReferenceCounter(AllTests.BASEDIR + "/garbage/", a);
 		fr.close();
-		counts c = rf.count("anything");
-		assertEquals(0, c.Declarations);
-		assertEquals(0, c.References);
+		Map<String, counts> classes = new HashMap<String, counts>();
+		rf.count(classes);
+		assertEquals(0, classes.size());
 	}
 }
