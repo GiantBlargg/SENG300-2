@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import assignment1.DirParser;
+import assignment1.ReferenceCounter.counts;
 
 /**
  * Run some tests on our own source code
@@ -25,26 +26,30 @@ public class TestSrc {
 
 	@Test
 	public void testString() {
-		assertEquals(0, dp.getCounts().get("java.lang.String").Declarations);
-		assertEquals(10, dp.getCounts().get("java.lang.String").References);
+		counts c = dp.getCounts().get("java.lang.String");
+		assertEquals(0, c.Declarations);
+		assertEquals(10, c.References);
 	}
 
 	@Test
 	public void testDirParser() {
-		assertEquals(1, dp.getCounts().get("assignment1.DirParser").Declarations);
-		assertEquals(2, dp.getCounts().get("assignment1.DirParser").References);
+		counts c = dp.getCounts().get("assignment1.DirParser");
+		assertEquals(1, c.Declarations);
+		assertEquals(2, c.References);
 	}
 
 	@Test
 	public void testReferenceCounter() {
-		assertEquals(1, dp.getCounts().get("assignment1.ReferenceCounter").Declarations);
-		assertEquals(2, dp.getCounts().get("assignment1.ReferenceCounter").References);
+		counts c = dp.getCounts().get("assignment1.ReferenceCounter");
+		assertEquals(1, c.Declarations);
+		assertEquals(2, c.References);
 	}
 
 	@Test
 	public void testCounts() {
-		assertEquals(1, dp.getCounts().get("assignment1.ReferenceCounter$counts").Declarations);
-		assertEquals(4, dp.getCounts().get("assignment1.ReferenceCounter$counts").References);
+		counts c = dp.getCounts().get("assignment1.ReferenceCounter$counts");
+		assertEquals(1, c.Declarations);
+		assertEquals(4, c.References);
 	}
 
 }
