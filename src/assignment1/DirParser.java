@@ -27,7 +27,16 @@ public class DirParser {
 	}
 
 	public void parseBaseDirectory() throws IOException {
-		parseDirectory(dir);
+
+		if (dir.isDirectory()) {
+			parseDirectory(dir);
+		} else {
+			String name = dir.getName();
+			int i = name.lastIndexOf('.');
+			if (name.substring(i) == ".jar") {
+				parseJar(dir);
+			}
+		}
 	}
 
 	public void parseFile(File file) throws IOException {
