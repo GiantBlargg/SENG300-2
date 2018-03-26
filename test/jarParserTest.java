@@ -18,7 +18,7 @@ public class jarParserTest {
 	// Setup test situation for test
 	@Before
 	public void setup() throws IOException {
-		dp = new DirParser(AllTests.BASEDIR2 + "/jarParsingTest/");
+		dp = new DirParser(AllTests.BASEDIR + "/jarParsingTest/");
 		dp.parseBaseDirectory();
 	}
 	
