@@ -32,7 +32,7 @@ public class DirParser {
 		} else if (dir.isFile()) {
 			String name = dir.getName();
 			int i = name.lastIndexOf('.');
-			if (i > -1 && name.substring(i) == ".jar") {
+			if (i > -1 && name.substring(i).equals(".jar")) {
 				parseJar(dir);
 			}
 		}
