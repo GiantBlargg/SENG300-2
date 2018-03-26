@@ -1,7 +1,6 @@
 package assignment1;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +29,10 @@ public class DirParser {
 
 		if (dir.isDirectory()) {
 			parseDirectory(dir);
-		} else {
+		} else if (dir.isFile()) {
 			String name = dir.getName();
 			int i = name.lastIndexOf('.');
-			if (name.substring(i) == ".jar") {
+			if (i > -1 && name.substring(i) == ".jar") {
 				parseJar(dir);
 			}
 		}
