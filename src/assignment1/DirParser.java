@@ -74,7 +74,6 @@ public class DirParser {
 				}
 				// convert string to charArray
 				char[] fileCArr = f.toCharArray();
-				System.out.println(Arrays.toString(fileCArr));
 				ReferenceCounter rf = new ReferenceCounter(dirpath, fileCArr);
 				rf.count(classes);
 				reader.close(); // close bufferedReader
