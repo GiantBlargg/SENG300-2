@@ -31,7 +31,7 @@ public class ReferenceCounter {
 			@Override
 			public boolean visit(TypeDeclaration node) {
 				if (node.resolveBinding() != null) {
-					String name = node.resolveBinding().getBinaryName();
+					String name = node.resolveBinding().getQualifiedName();
 					counts c = classes.get(name);
 					if (c == null) {
 						c = new counts();
@@ -49,7 +49,7 @@ public class ReferenceCounter {
 			@Override
 			public boolean visit(SimpleType node) {
 				if (node.resolveBinding() != null) {
-					String name = node.resolveBinding().getBinaryName();
+					String name = node.resolveBinding().getQualifiedName();
 					counts c = classes.get(name);
 					if (c == null) {
 						c = new counts();
@@ -59,7 +59,7 @@ public class ReferenceCounter {
 				}
 				return super.visit(node);
 			}
-			
+
 			@Override
 			public boolean visit(AnonymousClassDeclaration node) {
 				if (node.resolveBinding() != null) {
@@ -68,7 +68,7 @@ public class ReferenceCounter {
 					counts c = classes.get(name);
 					if (c == null) {
 						c = new counts();
-						classes.put(name,  c);
+						classes.put(name, c);
 					}
 					if (node.getParent() instanceof TypeDeclaration)
 						c.nested++;
