@@ -3,6 +3,7 @@ package assignment1;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.compiler.*;
 
 /**
  * This class can be passed a string to be parsed and a type to be counted.
@@ -10,7 +11,6 @@ import org.eclipse.jdt.core.dom.*;
  * @author daniel
  *
  */
-
 public class ReferenceCounter {
 
 	private ASTParser parser;
