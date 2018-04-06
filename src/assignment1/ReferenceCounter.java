@@ -3,7 +3,6 @@ package assignment1;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.*;
-import org.eclipse.jdt.core.compiler.*;
 
 /**
  * This class can be passed a string to be parsed and a type to be counted.
@@ -23,7 +22,6 @@ public class ReferenceCounter {
 		parser.setEnvironment(null, new String[] { path }, null, true);
 		parser.setUnitName("");
 		parser.setSource(src);
-
 		cu = (CompilationUnit) parser.createAST(null);
 	}
 
@@ -34,6 +32,8 @@ public class ReferenceCounter {
 				if (node.resolveBinding() != null) {
 					String name = node.resolveBinding().getBinaryName();
 					counts c = classes.get(name);
+					if (node.getParent() instanceof TypeDeclaration)
+						c.nested++;
 					if (c == null) {
 						c = new counts();
 						classes.put(name, c);
@@ -64,5 +64,8 @@ public class ReferenceCounter {
 	public class counts {
 		public int Declarations;
 		public int References;
+		public int nested;
+		public int anonymous;
+		public int local;
 	}
 }
