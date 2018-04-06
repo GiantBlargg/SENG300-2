@@ -34,10 +34,10 @@ public class ReferenceCounter {
 					counts c = classes.get(name);
 					if (c == null) {
 						c = new counts();
-						if (node.getParent() instanceof TypeDeclaration)
-							c.nested++;
 						classes.put(name, c);
 					}
+					if (node.getParent() instanceof TypeDeclaration)
+						c.nested++;
 					c.Declarations++;
 
 				}
@@ -54,6 +54,22 @@ public class ReferenceCounter {
 						classes.put(name, c);
 					}
 					c.References++;
+				}
+				return super.visit(node);
+			}
+			
+			@Override
+			public boolean visit(AnonymousClassDeclaration node) {
+				if (node.resolveBinding() != null) {
+					String name = node.resolveBinding().getBinaryName();
+					counts c = classes.get(name);
+					if (c == null) {
+						c = new counts();
+						classes.put(name,  c);
+					}
+					if (node.getParent() instanceof TypeDeclaration)
+						c.nested++;
+					c.Declarations++;
 				}
 				return super.visit(node);
 			}
