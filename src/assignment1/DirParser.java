@@ -89,13 +89,15 @@ public class DirParser {
 				if (file.isFile()) {
 					String name = file.getName();
 					int i = name.lastIndexOf('.');
-					switch (name.substring(i)) {
-					case ".java":
-						parseFile(file);
-						break;
-					case ".jar":
-						parseJar(file);
-						break;
+					if (i > -1) {
+						switch (name.substring(i)) {
+						case ".java":
+							parseFile(file);
+							break;
+						case ".jar":
+							parseJar(file);
+							break;
+						}
 					}
 				} else if (file.isDirectory()) {
 					parseDirectory(file);
@@ -106,10 +108,21 @@ public class DirParser {
 
 	@Override
 	public String toString() {
-		String out = "";
+		String out = "Name,Declarations,References,Nested,Anonymous,Local\n";
 		for (String key : classes.keySet()) {
 			counts c = classes.get(key);
-			out += key + ". Declarations found: " + c.Declarations + "; references found: " + c.References + ".\n";
+			out += key;
+			out += ",";
+			out += c.Declarations;
+			out += ",";
+			out += c.References;
+			out += ",";
+			out += c.nested;
+			out += ",";
+			out += c.anonymous;
+			out += ",";
+			out += c.local;
+			out += "\n";
 		}
 		return out;
 	}
@@ -118,7 +131,9 @@ public class DirParser {
 		DirParser dp = new DirParser(args[0]);
 		try {
 			dp.parseBaseDirectory();
-			System.out.println(dp);
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(args[1])));
+			out.print(dp);
+			out.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
