@@ -134,7 +134,6 @@ public class DirParser {
 			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(args[1])));
 			out.print(dp);
 			out.close();
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
