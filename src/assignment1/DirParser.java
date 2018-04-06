@@ -119,7 +119,6 @@ public class DirParser {
 		try {
 			dp.parseBaseDirectory();
 			System.out.println(dp);
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

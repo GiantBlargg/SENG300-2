@@ -32,10 +32,10 @@ public class ReferenceCounter {
 				if (node.resolveBinding() != null) {
 					String name = node.resolveBinding().getBinaryName();
 					counts c = classes.get(name);
-					if (node.getParent() instanceof TypeDeclaration)
-						c.nested++;
 					if (c == null) {
 						c = new counts();
+						if (node.getParent() instanceof TypeDeclaration)
+							c.nested++;
 						classes.put(name, c);
 					}
 					c.Declarations++;
