@@ -41,7 +41,6 @@ public class ReferenceCounter {
 					if (node.isLocalTypeDeclaration() == true)
 						c.local++;
 					c.Declarations++;
-
 				}
 				return super.visit(node);
 			}
@@ -71,7 +70,7 @@ public class ReferenceCounter {
 					}
 					if (node.getParent() instanceof TypeDeclaration)
 						c.nested++;
-					c.Declarations++;
+					c.anonymous++;
 				}
 				return super.visit(node);
 			}
