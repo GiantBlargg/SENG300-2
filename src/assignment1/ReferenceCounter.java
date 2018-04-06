@@ -38,6 +38,8 @@ public class ReferenceCounter {
 					}
 					if (node.getParent() instanceof TypeDeclaration)
 						c.nested++;
+					if (node.isLocalTypeDeclaration() == true)
+						c.local++;
 					c.Declarations++;
 
 				}
