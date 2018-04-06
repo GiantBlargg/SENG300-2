@@ -14,6 +14,7 @@ public class ReferenceCounter {
 
 	private ASTParser parser;
 	private CompilationUnit cu;
+	private Integer anonymousCounter = new Integer(1);
 
 	public ReferenceCounter(String path, char[] src) {
 		parser = ASTParser.newParser(AST.JLS9);
@@ -62,7 +63,8 @@ public class ReferenceCounter {
 			@Override
 			public boolean visit(AnonymousClassDeclaration node) {
 				if (node.resolveBinding() != null) {
-					String name = node.resolveBinding().getBinaryName();
+					String name = "Anonymous" + anonymousCounter.toString();
+					anonymousCounter++;
 					counts c = classes.get(name);
 					if (c == null) {
 						c = new counts();
