@@ -80,11 +80,26 @@ public class ReferenceCounter {
 		return classes;
 	}
 
-	public class counts {
+	public static class counts {
 		public int Declarations;
 		public int References;
 		public int nested;
 		public int anonymous;
 		public int local;
+
+		@Override
+		public String toString() {
+			String out = "";
+			out += Declarations;
+			out += ",";
+			out += References;
+			out += ",";
+			out += nested;
+			out += ",";
+			out += anonymous;
+			out += ",";
+			out += local;
+			return out;
+		}
 	}
 }

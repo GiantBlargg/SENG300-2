@@ -108,22 +108,24 @@ public class DirParser {
 
 	@Override
 	public String toString() {
+		counts ct = new counts();
 		String out = "Name,Declarations,References,Nested,Anonymous,Local\n";
 		for (String key : classes.keySet()) {
 			counts c = classes.get(key);
 			out += key;
 			out += ",";
-			out += c.Declarations;
-			out += ",";
-			out += c.References;
-			out += ",";
-			out += c.nested;
-			out += ",";
-			out += c.anonymous;
-			out += ",";
-			out += c.local;
+			out += c;
 			out += "\n";
+
+			ct.Declarations += c.Declarations;
+			ct.References += c.References;
+			ct.nested += c.nested;
+			ct.anonymous += c.anonymous;
+			ct.local += c.local;
 		}
+		out += "Total,";
+		out += ct;
+		out += "\n";
 		return out;
 	}
 
