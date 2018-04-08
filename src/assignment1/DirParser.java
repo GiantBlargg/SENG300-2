@@ -131,9 +131,15 @@ public class DirParser {
 
 	public static void main(String args[]) {
 		DirParser dp = new DirParser(args[0]);
+		String csvname;
+		if (args.length > 1) {
+			csvname = args[1];
+		} else {
+			csvname = args[0] + ".csv";
+		}
 		try {
 			dp.parseBaseDirectory();
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(args[1])));
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(csvname)));
 			out.print(dp);
 			out.close();
 		} catch (IOException e) {
