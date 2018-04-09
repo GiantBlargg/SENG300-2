@@ -47,7 +47,7 @@ public class TestSrc {
 
 	@Test
 	public void testCounts() {
-		counts c = dp.getCounts().get("assignment1.ReferenceCounter$counts");
+		counts c = dp.getCounts().get("assignment1.ReferenceCounter.counts");
 		assertEquals(1, c.Declarations);
 		assertEquals(4, c.References);
 	}

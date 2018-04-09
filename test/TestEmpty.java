@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 
 import org.junit.Test;
 
@@ -22,15 +20,6 @@ public class TestEmpty {
 		DirParser counter = new DirParser(AllTests.BASEDIR);
 		counter.parseBaseDirectory();
 		assertEquals(null, counter.getCounts().get("NoClass"));
-	}
-
-	@Test
-	public void testNonExistant() {
-		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
-		DirParser.main(new String[] { AllTests.BASEDIR + "/nonexistant" });
-		assertEquals("\n", outContent.toString());
-		System.setOut(System.out);
 	}
 
 }

@@ -30,12 +30,11 @@ public class TestExample {
 	public void testTest() {
 		counts c = classes.get("Test");
 		assertEquals(1, c.Declarations);
-		assertEquals(1, c.References);
 	}
 
 	@Test
 	public void testNest() {
-		counts c = classes.get("Test$NestedClass");
+		counts c = classes.get("Test.NestedClass");
 		assertEquals(1, c.Declarations);
 		assertEquals(2, c.References);
 	}
